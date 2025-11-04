@@ -3,29 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merge PDF App</title>
+  <title>Merge PDF Online</title>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script defer src="script.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      padding: 30px;
       text-align: center;
-      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-      padding: 50px;
     }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
+    .file-list {
+      margin-top: 20px;
       display: inline-block;
+      text-align: left;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
     }
-    input[type="file"] {
-      margin: 10px 0;
+    .file-item {
+      margin: 5px 0;
     }
     button {
+      margin-top: 20px;
       background-color: #4CAF50;
-      color: white;
       border: none;
+      color: white;
       padding: 10px 20px;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
     }
     button:hover {
@@ -34,11 +39,12 @@
   </style>
 </head>
 <body>
-  <h2>📎 Merge PDF Online</h2>
-  <p>Chọn các file PDF để gộp lại</p>
-  <form method="post" enctype="multipart/form-data">
-    <input type="file" name="pdf_files" multiple accept=".pdf"><br>
-    <button type="submit">Merge</button>
-  </form>
+  <h2>📎 Merge PDF Online (Client-side)</h2>
+  <p>Chọn nhiều file PDF để tải lên</p>
+
+  <input type="file" id="pdfFiles" multiple accept="application/pdf">
+  <div class="file-list" id="fileList"></div>
+
+  <button id="mergeBtn">Merge Selected PDFs</button>
 </body>
 </html>
