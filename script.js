@@ -72,100 +72,76 @@ async function convertTextToPDF(file) {
     return pdf.output('arraybuffer');
 }
 
-async function convertExcelToPDF(file) {
-    const arrayBuffer = await file.arrayBuffer();
-    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-    const pdf = new window.jspdf.jsPDF('p', 'pt', 'a4');
-    const margin = 40;
-    let currentY = margin;
+async function convertOfficeFileToPDF(file) {
+    return new Promise((resolve, reject) => {
+        // Tạo một iframe ẩn để hiển thị và in file
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
 
-    // Xử lý từng sheet
-    workbook.SheetNames.forEach((sheetName, sheetIndex) => {
-        if (sheetIndex > 0) {
-            pdf.addPage();
-            currentY = margin;
-        }
+        // Tạo URL cho file
+        const objectUrl = URL.createObjectURL(file);
 
-        // Thêm tên sheet
-        pdf.setFontSize(16);
-        pdf.text(sheetName, margin, currentY);
-        currentY += 30;
-        pdf.setFontSize(10);
+        // Sử dụng Google Docs Viewer để render file
+        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(objectUrl)}&embedded=true`;
+        
+        iframe.src = viewerUrl;
 
-        const worksheet = workbook.Sheets[sheetName];
-        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        // Đợi iframe load xong
+        iframe.onload = async () => {
+            try {
+                // Sử dụng html2canvas để chụp nội dung đã render
+                const canvas = await html2canvas(iframe.contentDocument.body);
+                
+                // Chuyển canvas thành PDF
+                const pdf = new window.jspdf.jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: [canvas.width, canvas.height]
+                });
 
-        // Tính toán độ rộng cột
-        const columnWidths = [];
-        data.forEach(row => {
-            row.forEach((cell, i) => {
-                const cellWidth = pdf.getTextWidth(String(cell)) + 10;
-                columnWidths[i] = Math.max(columnWidths[i] || 0, cellWidth);
-            });
-        });
+                // Thêm ảnh vào PDF
+                pdf.addImage(
+                    canvas.toDataURL('image/jpeg', 1.0),
+                    'JPEG',
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
 
-        // Vẽ dữ liệu
-        data.forEach(row => {
-            let currentX = margin;
-            const rowHeight = 20;
+                // Cleanup
+                URL.revokeObjectURL(objectUrl);
+                document.body.removeChild(iframe);
 
-            // Kiểm tra xem có cần thêm trang mới không
-            if (currentY + rowHeight > pdf.internal.pageSize.height - margin) {
-                pdf.addPage();
-                currentY = margin;
+                resolve(pdf.output('arraybuffer'));
+            } catch (error) {
+                reject(error);
             }
+        };
 
-            row.forEach((cell, i) => {
-                pdf.text(String(cell), currentX, currentY);
-                currentX += columnWidths[i];
-            });
+        // Xử lý lỗi
+        iframe.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            document.body.removeChild(iframe);
+            reject(new Error('Không thể tải file. Vui lòng thử lại.'));
+        };
 
-            currentY += rowHeight;
-        });
+        // Timeout sau 30 giây
+        setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+            document.body.removeChild(iframe);
+            reject(new Error('Hết thời gian chờ. Vui lòng thử lại.'));
+        }, 30000);
     });
+}
 
-    return pdf.output('arraybuffer');
+async function convertExcelToPDF(file) {
+    return await convertOfficeFileToPDF(file);
 }
 
 async function convertWordToPDF(file) {
-    const arrayBuffer = await file.arrayBuffer();
-    const result = await mammoth.convertToHtml({ arrayBuffer });
-    const html = result.value;
-
-    // Tạo một container tạm thời để render HTML
-    const container = document.createElement('div');
-    container.innerHTML = html;
-    document.body.appendChild(container);
-
-    // Chuyển HTML sang PDF
-    const pdf = new window.jspdf.jsPDF();
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    let y = 10;
-
-    // Xử lý từng đoạn văn bản
-    container.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(element => {
-        const fontSize = element.tagName.startsWith('H') 
-            ? 16 - parseInt(element.tagName[1]) 
-            : 12;
-        pdf.setFontSize(fontSize);
-
-        const text = element.textContent.trim();
-        const lines = pdf.splitTextToSize(text, pdfWidth - 20);
-
-        lines.forEach(line => {
-            if (y > pdf.internal.pageSize.getHeight() - 10) {
-                pdf.addPage();
-                y = 10;
-            }
-            pdf.text(10, y, line);
-            y += fontSize * 1.2;
-        });
-
-        y += 5; // Thêm khoảng cách giữa các đoạn
-    });
-
-    document.body.removeChild(container);
-    return pdf.output('arraybuffer');
+    return await convertOfficeFileToPDF(file);
 }
 
 async function fileToPDFBuffer(file) {
@@ -191,7 +167,13 @@ async function fileToPDFBuffer(file) {
 async function convertFile(file, statusElement) {
     try {
         statusElement.className = 'status converting';
-        statusElement.textContent = 'Đang chuyển đổi...';
+        
+        const fileType = getFileType(file);
+        if (fileType === 'excel' || fileType === 'word') {
+            statusElement.textContent = 'Đang chuyển đổi (có thể mất 15-30 giây)...';
+        } else {
+            statusElement.textContent = 'Đang chuyển đổi...';
+        }
         
         const pdfBuffer = await fileToPDFBuffer(file);
         convertedPDFs.set(file.name, pdfBuffer);
