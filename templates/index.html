@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge PDF App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      padding: 50px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    input[type="file"] {
+      margin: 10px 0;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h2>📎 Merge PDF Online</h2>
+  <p>Chọn các file PDF để gộp lại</p>
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="pdf_files" multiple accept=".pdf"><br>
+    <button type="submit">Merge</button>
+  </form>
+</body>
+</html>
