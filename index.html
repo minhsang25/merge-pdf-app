@@ -1,113 +1,51 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merge PDF Online</title>
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-  <script defer src="script.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      text-align: center;
-    }
-    .file-list {
-      margin-top: 20px;
-      display: inline-block;
-      text-align: left;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-    }
-    .file-item {
-      margin: 5px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .status {
-      font-size: 12px;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .status.converting {
-      background-color: #fff3cd;
-      color: #856404;
-    }
-    .status.converted {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    .status.error {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-    button {
-      margin-top: 20px;
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
-    }
-    .upload-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    #addMoreBtn {
-      background-color: #17a2b8;
-    }
-    #addMoreBtn:hover {
-      background-color: #138496;
-    }
-    #clearBtn:hover {
-      background-color: #c82333;
-    }
-    .file-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .remove-file {
-      color: #dc3545;
-      cursor: pointer;
-      font-weight: bold;
-      padding: 0 5px;
-    }
-    .remove-file:hover {
-      background-color: #dc3545;
-      color: white;
-      border-radius: 3px;
-    }
-  </style>
-</head>
-<body>
-  <h2>📎 Universal File Merger - app này do Minh Sang đẹp trai viết vội, nên bị xấu nhưng mà xài được</h2>
-  <p>Quân mập chọn nhiều file bất kỳ để tải lên và merge</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tool Converter</title>
+    <!-- Link CSS riêng -->
+    <link rel="stylesheet" href="..\assets\css\styles.css" />
+    <!-- Font Awesome cho icon đẹp -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <h1>Tool Converter</h1>
 
-  <div class="upload-container">
-    <input type="file" id="fileInput" multiple>
-    <button id="addMoreBtn" style="margin-left: 10px;">Add More Files</button>
-  </div>
-  <div id="fileInfo"></div>
-  <div class="file-list" id="fileList"></div>
+    <div class="container">
+      <button
+        class="btn"
+        onclick="alert('The handsome boy - Minh Sang is developing Excel Converter function')"
+      >
+        <i class="fas fa-file-excel"></i>
+        Excel Converter
+      </button>
 
-  <button id="mergeBtn">Merge Selected PDFs</button>
-  <button id="clearBtn" style="background-color: #dc3545; margin-left: 10px;">Clear All Files</button>
-</body>
+      <button
+        class="btn"
+        onclick="alert('The handsome boy - Minh Sang is developing Docx Converter function')"
+      >
+        <i class="fas fa-file-word"></i>
+        Docx Converter
+      </button>
+
+      <button
+        class="btn"
+        onclick="alert('The handsome boy - Minh Sang is developing PPT Converter function')"
+      >
+        <i class="fas fa-file-powerpoint"></i>
+        PPT Converter
+      </button>
+
+      <button class="btn" onclick="window.location.href='merge-pdf/index.html'">
+        <i class="fas fa-file-pdf"></i>
+        Merge - PDF
+      </button>
+    </div>
+
+    <footer>© 2025 Minh Sang đệp troai</footer>
+  </body>
 </html>

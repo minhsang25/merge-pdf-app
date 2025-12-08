@@ -1,0 +1,220 @@
+/* merge-pdf/merge-pdf.css */
+
+body {
+  background: #000000;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+
+.content {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 50px 40px;
+  width: 90%;
+  max-width: 900px;
+  margin: 120px auto 60px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 1s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+  font-size: 2.8rem;
+  margin: 0 0 15px 0;
+  text-align: center;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 40px;
+  opacity: 0.95;
+  font-style: italic;
+}
+
+/* Nút upload đẹp hơn */
+.custom-file-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.custom-file-upload:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.6);
+}
+
+/* File item */
+.file-item {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.file-item:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: translateX(12px);
+}
+
+/* Nút hành động */
+.btn-primary,
+.btn-danger,
+.btn-info {
+  padding: 16px 40px;
+  color: white;
+  font-size: 1.2rem;
+  min-width: 220px;
+  border-radius: 50px;
+  font-weight: bold;
+  margin-top: 3rem;
+
+  background: transparent;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* ✅ Thêm vào đây */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.6);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.6);
+}
+
+/* Nút Back to Home */
+.back-home {
+  top: 30px;
+  left: 30px;
+  margin: 1rem 0 0 1rem;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  color: #ffffff;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none;
+}
+
+.back-home:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    padding: 40px 25px;
+    margin: 100px auto 40px;
+  }
+  h2 {
+    font-size: 2.2rem;
+  }
+  .btn-primary,
+  .btn-danger,
+  .btn-info {
+    background-color: #000000;
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.9rem;
+  }
+  .custom-file-upload {
+    padding: 14px 25px;
+    font-size: 1.1rem;
+  }
+  .btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  .btn-primary,
+  .btn-danger,
+  .btn-info {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Cố định layout bảng */
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 🔒 quan trọng để khóa width cột */
+}
+
+/* Cấu hình chung */
+.file-table th,
+.file-table td {
+  padding: 12px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Hiện "..." khi quá dài */
+}
+
+/* Cố định từng cột */
+.file-table th:nth-child(1),
+.file-table td:nth-child(1) {
+  width: 5%;
+  text-align: center;
+}
+
+.file-table th:nth-child(2),
+.file-table td:nth-child(2) {
+  width: 40%;
+}
+
+.file-table th:nth-child(3),
+.file-table td:nth-child(3) {
+  width: 12%;
+  text-align: center;
+}
+
+.file-table th:nth-child(4),
+.file-table td:nth-child(4) {
+  width: 15%;
+  text-align: center;
+}
+
+.file-table th:nth-child(5),
+.file-table td:nth-child(5) {
+  width: 18%;
+  text-align: center;
+}
+
+.file-table th:nth-child(6),
+.file-table td:nth-child(6) {
+  width: 10%;
+  text-align: center;
+}
